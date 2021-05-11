@@ -1,0 +1,56 @@
+1) Add 5 movies to the collection, every movie document should include the following properties:
+name, genre, rating (out of 10) and language
+
+Answer:
+db.movies.insert({'name':'Qissa', 'genre':'Romance', 'rating':4.5, 'language':'Hindi'},{'name':'Samay', 'genre':'Action','rating':4,'language':'Hindi'},{'name':'Defender','genre':'Sci-fi','rating':4.3,'language':'English'},{'name':'Veer','genre':'Action','rating':3.5,'language':'Hindi'},{'name':'Andaz','genre':'Action','rating':4.2,'language':'English'})
+
+
+2) Write a query that returns all the movies
+
+Answer:
+db.movies.find().pretty
+
+
+3) Write a query to find anyone movie name using findOne method (Do not use limit() method)
+
+Answer:
+db.movies.findOne({'name':'Andaz'});
+
+
+4) Write a query that returns the three highest rated movies
+
+Answer:
+db.movies.find().sort({rating:-1}).limit(3);
+
+
+
+5) Add a key called achievements in any two documents. One document should have ‘Super hit’ and
+other should have ‘Super Duper Hit’ as value to key achievements. This task should be performed
+in two ways 
+i. Using update() method
+ii. Using save() method
+Hint: For save, you have to query the object and store it in a variable first
+
+
+Answer:
+i)
+db.movies.update({'name':'Andaz'},{$set:{'key_achievements':'Super Hit'}});
+
+ii)
+var movie=db.movies.findOne({'name':'Qissa'});
+movie.key_achievements='Super Duper Hit';
+db.movies.save(movie);
+
+
+6) Write a query that returns all the movies that have both the ‘Super hit’ and the ‘Super Duper hit’’
+achievements
+
+Answer:
+db.movies.find({$or: [{key_achievements: {$in: ["Super Hit", "Super Duper Hit"]}}]}).pretty()
+
+
+7) Write a query that returns only those movies that have achievements
+
+
+Answer:
+db.movies.find({'key_achievements':{$exists:true}});
